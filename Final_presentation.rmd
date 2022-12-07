@@ -1,0 +1,95 @@
+---
+title: <font size=\"8\">Group 7</font><br> <font size=\"10\">CIS 8398 - Project Presentation<br>ETA of a response on Stack Overflow
+author: <b><u>Team Members</u>:</b><br><br>Chaitanya Teja Chandolu<br> Sai Charit
+  Kondepati <br>  Sai Krishna Vamsy Alapati<br>Vaishnavi Babli<br>
+date: "December 07, 2022"
+output: ioslides_presentation
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+
+
+## Problem Description
+
+-   Most programmers like to have an ETA on everything. This applies to the questions posted on Stack Overflow as well where it currently does not provide an ETA.
+-   With this project, we are able to predict the <b>Estimated time of getting a response</b> to a question by analyzing the factors and their relation with the response time.
+
+## Our Analytics Plan
+
+As a typical Machine Learning project, we followed these sequence of steps
+
+-   <b>Data Collection</b>
+-   <b>Null handling</b>
+-   <b>Pre Processing</b>
+-   <b>Exploratory Data Analysis</b>
+-   <b>Data modelling</b>
+-   <b>Prediction</b>
+
+## Summary of peer comments
+
+-   <b>Will the ETA be for predicting the first response time or the correct solution to the question?</b>
+<ul>
+<li> It will be the time taken for the first response.</li>
+</ul>
+<br>
+-   <b>Is this time series problem or regression problem?</b>
+<ul>
+<li>This is a regression problem as our output variable does not depend on a time frame.</li>
+</ul>
+<br>
+-   <b>What models are you planning to implement in this project?</b>
+<ul>
+<li>We have implemented Random forest, Deep learning, Deep learning with hyper parameters, Auto ML.</li>
+</ul>
+
+
+## API limitations
+
+-   Max page size : 100
+-   Max calls per second: 30
+-   Max requests per day(with authentication key): 10,000
+-   Throws us out for a couple of days when the request limit/IP limit exceeds the threshold.
+-   And a lot of <b>502 error</b>.
+
+## Data Collection
+
+-   We wanted to try and leverage the available approaches to collect our data.
+-   In one way, we have prepared a questions dataframe by directly calling the StackExchange API with stackoverflow as endpoint at <https://api.stackexchange.com/docs/>.
+
+```{r eval=FALSE}
+required_cols = c("is_answered","view_count","answer_count",
+                  "score","last_activity_date","creation_date",
+                  "last_edit_date","question_id","title",
+                  "accepted_answer_id","closed_date","closed_reason",
+                  'bounty_closes_date', 'bounty_amount')
+```
+
+-   We used this vector to disregard any other columns that appear in the responses.
+
+## Data Collection
+
+-   Using the question ids collected, we have used the <b>stackr</b> package to retrieve the answers and tags data frames.
+
+-   Joining them all, a full data frame with questions, tags and their answer details has been generated.
+
+-   This data frame is exported to a .csv file for further analysis.
+
+## Feature Engineering
+
+*   We created a few new columns for our model and analysis.
+*   tag_count: It is the total number of tags connected with a question.
+*   is_Weekend: To understand the trend in receiving answers to the questions we used this flag to determine whether the day is a weekend.
+
+
+
+Cursor is here 
+
+
+## Evaluation plan
+
+-   Data will be split into test-train datasets, and the predicted results will be compared with the actual results.
+-   Efficiency of the model will be determined by metrics such as accuracy, RMSE, R-squared etc.
